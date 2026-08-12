@@ -23,8 +23,6 @@ function EventForm({ event, done }) {
         eventType: "",
         venue: "",
 
-        facilities: [],
-
         website: "",
         description: "",
         poster: null
@@ -47,47 +45,15 @@ function EventForm({ event, done }) {
     };
 
 
-    const facilityChange = e => {
-
-        const {
-            value,
-            checked
-        } = e.target;
-
-
-        setForm({
-
-            ...form,
-
-            facilities: checked
-
-                ? [
-                    ...form.facilities,
-                    value
-                ]
-
-                : form.facilities.filter(
-                    item => item !== value
-                )
-
-        });
-
-    };
-
-
     const submit = async e => {
 
         e.preventDefault();
 
 
         const phone =
-            form.phone.replace(
-                /\D/g,
-                ""
-            );
+            form.phone.replace(/\D/g, "");
 
 
-        
 
         if (
             !form.eventName.trim() ||
@@ -123,7 +89,6 @@ function EventForm({ event, done }) {
         }
 
 
-      
 
         if (phone.length !== 10) {
 
@@ -134,11 +99,8 @@ function EventForm({ event, done }) {
         }
 
 
-      
 
-        if (
-            form.password.length < 6
-        ) {
+        if (form.password.length < 6) {
 
             return alert(
                 "Password must contain at least 6 characters"
@@ -147,7 +109,7 @@ function EventForm({ event, done }) {
         }
 
 
-        
+       
 
         if (
             Number(form.maxParticipants) <= 0
@@ -162,21 +124,7 @@ function EventForm({ event, done }) {
 
         
 
-        if (
-            form.facilities.length === 0
-        ) {
-
-            return alert(
-                "Select at least one facility"
-            );
-
-        }
-
-
-       
-
-        const data =
-            new FormData();
+        const data = new FormData();
 
 
         data.append(
@@ -184,74 +132,55 @@ function EventForm({ event, done }) {
             form.eventName
         );
 
-
         data.append(
             "resourcePerson",
             form.resourcePerson
         );
-
 
         data.append(
             "maxParticipants",
             form.maxParticipants
         );
 
-
         data.append(
             "registrationStatus",
             form.registrationStatus
         );
-
 
         data.append(
             "email",
             form.email
         );
 
-
         data.append(
             "phone",
             phone
         );
-
 
         data.append(
             "password",
             form.password
         );
 
-
         data.append(
             "eventDate",
             form.eventDate
         );
-
 
         data.append(
             "eventType",
             form.eventType
         );
 
-
         data.append(
             "venue",
             form.venue
         );
 
-
-        data.append(
-            "facilities",
-            JSON.stringify(
-                form.facilities
-            )
-        );
-
-
         data.append(
             "website",
             form.website
         );
-
 
         data.append(
             "description",
@@ -269,7 +198,6 @@ function EventForm({ event, done }) {
         }
 
 
-        
 
         if (event) {
 
@@ -321,7 +249,8 @@ function EventForm({ event, done }) {
             "
         >
 
-            {/* HEADING */}
+
+            {}
 
             <div className="mb-6">
 
@@ -352,7 +281,7 @@ function EventForm({ event, done }) {
             </div>
 
 
-            {/* event details for the program */}
+            {}
 
             <fieldset className="
                 border
@@ -380,7 +309,7 @@ function EventForm({ event, done }) {
                 ">
 
 
-                    {/* EVENT NAME */}
+                    {}
 
                     <div>
 
@@ -412,7 +341,7 @@ function EventForm({ event, done }) {
                     </div>
 
 
-                    {/* resoure person */}
+                    {}
 
                     <div>
 
@@ -444,7 +373,7 @@ function EventForm({ event, done }) {
                     </div>
 
 
-                    {/* participants */}
+                    {}
 
                     <div>
 
@@ -470,16 +399,14 @@ function EventForm({ event, done }) {
                             name="maxParticipants"
                             placeholder="Enter maximum number"
                             min="1"
-                            value={
-                                form.maxParticipants
-                            }
+                            value={form.maxParticipants}
                             onChange={change}
                         />
 
                     </div>
 
 
-                    {/* registration status */}
+                    {}
 
                     <div>
 
@@ -529,7 +456,7 @@ function EventForm({ event, done }) {
                     </div>
 
 
-                    {/* EMAIL */}
+                    {}
 
                     <div>
 
@@ -561,7 +488,7 @@ function EventForm({ event, done }) {
                     </div>
 
 
-                    {/* phone num */}
+                    {}
 
                     <div>
 
@@ -594,7 +521,7 @@ function EventForm({ event, done }) {
                     </div>
 
 
-                    {/* password */}
+                    {}
 
                     <div>
 
@@ -626,7 +553,7 @@ function EventForm({ event, done }) {
                     </div>
 
 
-                    {/* date */}
+                    {}
 
                     <div>
 
@@ -661,7 +588,7 @@ function EventForm({ event, done }) {
             </fieldset>
 
 
-            {/* EVENT CATEGORY */}
+            {}
 
             <fieldset className="
                 border
@@ -773,7 +700,7 @@ function EventForm({ event, done }) {
                 </div>
 
 
-                {/* VENUE */}
+                {}
 
                 <div className="mb-6">
 
@@ -824,8 +751,10 @@ function EventForm({ event, done }) {
 
                 </div>
 
+            </fieldset>
 
-            {/* ADDITIONAL DETAILS */}
+
+            {}
 
             <fieldset className="
                 border
@@ -846,7 +775,7 @@ function EventForm({ event, done }) {
                 </legend>
 
 
-                {/* WEBSITE */}
+                {}
 
                 <div className="mb-5">
 
@@ -878,7 +807,7 @@ function EventForm({ event, done }) {
                 </div>
 
 
-                {/* POSTER */}
+                {}
 
                 <div className="mb-5">
 
@@ -914,7 +843,7 @@ function EventForm({ event, done }) {
                 </div>
 
 
-                {/* DESCRIPTION */}
+                {}
 
                 <div>
 
@@ -948,7 +877,7 @@ function EventForm({ event, done }) {
             </fieldset>
 
 
-            {/* BUTTON */}
+            {}
 
             <button
                 type="submit"
@@ -968,6 +897,7 @@ function EventForm({ event, done }) {
                     : "Create Event"}
 
             </button>
+
 
         </form>
 
