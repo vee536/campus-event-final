@@ -87,7 +87,7 @@ function EventForm({ event, done }) {
             );
 
 
-        /* REQUIRED FIELDS */
+        
 
         if (
             !form.eventName.trim() ||
@@ -109,7 +109,7 @@ function EventForm({ event, done }) {
         }
 
 
-        /* EMAIL VALIDATION */
+        
 
         if (
             !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -123,7 +123,7 @@ function EventForm({ event, done }) {
         }
 
 
-        /* PHONE VALIDATION */
+      
 
         if (phone.length !== 10) {
 
@@ -134,7 +134,7 @@ function EventForm({ event, done }) {
         }
 
 
-        /* PASSWORD VALIDATION */
+      
 
         if (
             form.password.length < 6
@@ -147,7 +147,7 @@ function EventForm({ event, done }) {
         }
 
 
-        /* PARTICIPANT VALIDATION */
+        
 
         if (
             Number(form.maxParticipants) <= 0
@@ -160,7 +160,7 @@ function EventForm({ event, done }) {
         }
 
 
-        /* FACILITY VALIDATION */
+        
 
         if (
             form.facilities.length === 0
@@ -173,7 +173,7 @@ function EventForm({ event, done }) {
         }
 
 
-        /* FORM DATA */
+       
 
         const data =
             new FormData();
@@ -269,7 +269,7 @@ function EventForm({ event, done }) {
         }
 
 
-        /* CREATE / UPDATE */
+        
 
         if (event) {
 
@@ -352,7 +352,7 @@ function EventForm({ event, done }) {
             </div>
 
 
-            {/* EVENT DETAILS */}
+            {/* event details for the program */}
 
             <fieldset className="
                 border
@@ -412,7 +412,7 @@ function EventForm({ event, done }) {
                     </div>
 
 
-                    {/* RESOURCE PERSON */}
+                    {/* resoure person */}
 
                     <div>
 
@@ -444,7 +444,7 @@ function EventForm({ event, done }) {
                     </div>
 
 
-                    {/* MAX PARTICIPANTS */}
+                    {/* participants */}
 
                     <div>
 
@@ -479,7 +479,7 @@ function EventForm({ event, done }) {
                     </div>
 
 
-                    {/* REGISTRATION STATUS */}
+                    {/* registration status */}
 
                     <div>
 
@@ -561,7 +561,7 @@ function EventForm({ event, done }) {
                     </div>
 
 
-                    {/* PHONE */}
+                    {/* phone num */}
 
                     <div>
 
@@ -594,7 +594,7 @@ function EventForm({ event, done }) {
                     </div>
 
 
-                    {/* PASSWORD */}
+                    {/* password */}
 
                     <div>
 
@@ -626,7 +626,7 @@ function EventForm({ event, done }) {
                     </div>
 
 
-                    {/* DATE */}
+                    {/* date */}
 
                     <div>
 
@@ -823,67 +823,6 @@ function EventForm({ event, done }) {
                     </select>
 
                 </div>
-
-
-                {/* FACILITIES */}
-
-                <div>
-
-                    <p className="
-                        font-semibold
-                        mb-3
-                    ">
-
-                        Facilities *
-
-                    </p>
-
-
-                    <div className="
-                        flex
-                        flex-wrap
-                        gap-6
-                    ">
-
-                        {[
-                            "Projector",
-                            "Sound System",
-                            "WiFi",
-                            "Refreshments"
-                        ].map(item => (
-
-                            <label
-                                key={item}
-                                className="
-                                    flex
-                                    items-center
-                                    gap-2
-                                "
-                            >
-
-                                <input
-                                    type="checkbox"
-                                    value={item}
-                                    checked={
-                                        form.facilities
-                                            .includes(item)
-                                    }
-                                    onChange={
-                                        facilityChange
-                                    }
-                                />
-
-                                {item}
-
-                            </label>
-
-                        ))}
-
-                    </div>
-
-                </div>
-
-            </fieldset>
 
 
             {/* ADDITIONAL DETAILS */}

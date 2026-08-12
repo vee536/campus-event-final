@@ -35,7 +35,6 @@ function App() {
                         text-sm
                         mt-1
                     ">
-                        Create and manage campus events
                     </p>
 
                 </div>
