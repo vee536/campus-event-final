@@ -31,7 +31,7 @@ app.use(
     eventRoutes
 );
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 mongoose
     .connect(process.env.MONGO_URI)

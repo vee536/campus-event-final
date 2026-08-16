@@ -1,5 +1,5 @@
 const API =
-    "http://localhost:5000/api/events";
+    "http://localhost:5001/api/events";
 
 export const getEvents = () =>
     fetch(API)
