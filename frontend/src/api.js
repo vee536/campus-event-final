@@ -22,3 +22,4 @@ export const deleteEvent = id =>
     fetch(`${API}/${id}`, {
         method: "DELETE"
     }).then(res => res.json());
+    
