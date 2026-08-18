@@ -1,203 +1,113 @@
 import { useState } from "react";
+import { addEvent, updateEvent } from "../api";
 
-import {
-    addEvent,
-    updateEvent
-} from "../api";
-
+const emptyForm = {
+    eventName: "",
+    resourcePerson: "",
+    maxParticipants: "",
+    registrationStatus: "",
+    email: "",
+    phone: "",
+    password: "",
+    eventDate: "",
+    eventType: "",
+    venue: "",
+    poster: null
+};
 
 function EventForm({ event, done }) {
 
-    const empty = {
+    const [form, setForm] = useState(
+        event
+            ? {
+                ...emptyForm,
+                ...event,
+                eventDate: event.eventDate
+                    ? event.eventDate.slice(0, 10)
+                    : ""
+            }
+            : emptyForm
+    );
 
-        eventName: "",
-        resourcePerson: "",
-        maxParticipants: "",
-        registrationStatus: "",
-
-        email: "",
-        phone: "",
-        password: "",
-
-        eventDate: "",
-        eventType: "",
-        venue: "",
-
-        website: "",
-        description: "",
-        poster: null
-
-    };
-
-
-    const [form, setForm] =
-        useState(event || empty);
-
-
-    const change = e => {
-
+    const change = (e) => {
         setForm({
             ...form,
-            [e.target.name]:
-                e.target.value
+            [e.target.name]: e.target.value
         });
-
     };
 
-
-    const submit = async e => {
+    const submit = async (e) => {
 
         e.preventDefault();
-
 
         const phone =
             form.phone.replace(/\D/g, "");
 
-
-
         if (
-            !form.eventName.trim() ||
-            !form.resourcePerson.trim() ||
+            !form.eventName ||
+            !form.resourcePerson ||
             !form.maxParticipants ||
             !form.registrationStatus ||
-            !form.email.trim() ||
+            !form.email ||
             !phone ||
             !form.password ||
             !form.eventDate ||
             !form.eventType ||
             !form.venue
         ) {
-
             return alert(
                 "Please fill all required fields"
             );
-
         }
-
-
-        
 
         if (
             !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
                 .test(form.email)
         ) {
-
             return alert(
                 "Enter a valid email"
             );
-
         }
 
-
-
         if (phone.length !== 10) {
-
             return alert(
                 "Phone number must contain 10 digits"
             );
-
         }
 
-
-
         if (form.password.length < 6) {
-
             return alert(
                 "Password must contain at least 6 characters"
             );
-
         }
 
-
-       
-
-        if (
-            Number(form.maxParticipants) <= 0
-        ) {
-
+        if (Number(form.maxParticipants) <= 0) {
             return alert(
                 "Maximum participants must be greater than 0"
             );
-
         }
-
-
-        
 
         const data = new FormData();
 
+        Object.entries(form).forEach(
+            ([key, value]) => {
 
-        data.append(
-            "eventName",
-            form.eventName
+                if (
+                    key !== "poster" &&
+                    key !== "_id"
+                ) {
+                    data.append(key, value);
+                }
+
+            }
         );
-
-        data.append(
-            "resourcePerson",
-            form.resourcePerson
-        );
-
-        data.append(
-            "maxParticipants",
-            form.maxParticipants
-        );
-
-        data.append(
-            "registrationStatus",
-            form.registrationStatus
-        );
-
-        data.append(
-            "email",
-            form.email
-        );
-
-        data.append(
-            "phone",
-            phone
-        );
-
-        data.append(
-            "password",
-            form.password
-        );
-
-        data.append(
-            "eventDate",
-            form.eventDate
-        );
-
-        data.append(
-            "eventType",
-            form.eventType
-        );
-
-        data.append(
-            "venue",
-            form.venue
-        );
-
-        data.append(
-            "website",
-            form.website
-        );
-
-        data.append(
-            "description",
-            form.description
-        );
-
 
         if (form.poster) {
-
             data.append(
                 "poster",
                 form.poster
             );
-
         }
-
-
 
         if (event) {
 
@@ -217,22 +127,17 @@ function EventForm({ event, done }) {
             alert(
                 "Event created successfully"
             );
-
         }
-
 
         if (done) {
-
             done();
-
         } else {
-
             window.location.reload();
-
         }
-
     };
 
+    const inputClass =
+        "w-full border rounded-md p-2 mt-1";
 
     return (
 
@@ -240,194 +145,106 @@ function EventForm({ event, done }) {
             onSubmit={submit}
             className="
                 bg-white
-                border
-                border-gray-200
-                rounded-xl
-                shadow-sm
                 p-6
+                rounded-lg
+                shadow
                 mb-8
             "
         >
 
-
-            {}
-
-            <div className="mb-6">
-
-                <h2 className="
-                    text-2xl
-                    font-bold
-                    text-blue-800
-                    mb-1
-                ">
-
-                    {event
-                        ? "Edit Event"
-                        : "Create Campus Event"}
-
-                </h2>
+            <h2 className="
+                text-2xl
+                font-bold
+                text-blue-800
+                mb-5
+            ">
+                {event
+                    ? "Edit Event"
+                    : "Create Campus Event"}
+            </h2>
 
 
-                <p className="
-                    text-gray-500
-                    text-sm
-                ">
-
-                    Enter the event details below.
-                    Fields marked with * are required.
-
-                </p>
-
-            </div>
-
-
-            {}
+            {/* EVENT DETAILS */}
 
             <fieldset className="
                 border
-                border-blue-200
                 rounded-lg
-                p-5
-                mb-6
+                p-4
+                mb-5
             ">
 
                 <legend className="
-                    px-3
-                    text-blue-700
                     font-bold
+                    px-2
+                    text-blue-700
                 ">
-
                     Event Details
-
                 </legend>
 
 
                 <div className="
                     grid
                     md:grid-cols-2
-                    gap-5
+                    gap-4
                 ">
 
-
-                    {}
-
                     <div>
-
-                        <label className="
-                            block
-                            font-semibold
-                            mb-2
-                        ">
-
+                        <label>
                             Event Name *
-
                         </label>
 
-
                         <input
-                            className="
-                                border
-                                rounded-md
-                                p-2.5
-                                w-full
-                            "
+                            className={inputClass}
                             type="text"
                             name="eventName"
-                            placeholder="Enter event name"
                             value={form.eventName}
                             onChange={change}
                         />
-
                     </div>
 
 
-                    {}
-
                     <div>
-
-                        <label className="
-                            block
-                            font-semibold
-                            mb-2
-                        ">
-
+                        <label>
                             Resource Person *
-
                         </label>
 
-
                         <input
-                            className="
-                                border
-                                rounded-md
-                                p-2.5
-                                w-full
-                            "
+                            className={inputClass}
                             type="text"
                             name="resourcePerson"
-                            placeholder="Enter resource person"
-                            value={form.resourcePerson}
+                            value={
+                                form.resourcePerson
+                            }
                             onChange={change}
                         />
-
                     </div>
 
 
-                    {}
-
                     <div>
-
-                        <label className="
-                            block
-                            font-semibold
-                            mb-2
-                        ">
-
+                        <label>
                             Maximum Participants *
-
                         </label>
-
 
                         <input
-                            className="
-                                border
-                                rounded-md
-                                p-2.5
-                                w-full
-                            "
+                            className={inputClass}
                             type="number"
                             name="maxParticipants"
-                            placeholder="Enter maximum number"
                             min="1"
-                            value={form.maxParticipants}
+                            value={
+                                form.maxParticipants
+                            }
                             onChange={change}
                         />
-
                     </div>
 
 
-                    {}
-
                     <div>
-
-                        <label className="
-                            block
-                            font-semibold
-                            mb-2
-                        ">
-
+                        <label>
                             Registration Status *
-
                         </label>
 
-
                         <select
-                            className="
-                                border
-                                rounded-md
-                                p-2.5
-                                w-full
-                            "
+                            className={inputClass}
                             name="registrationStatus"
                             value={
                                 form.registrationStatus
@@ -436,7 +253,7 @@ function EventForm({ event, done }) {
                         >
 
                             <option value="">
-                                Select Status
+                                Select
                             </option>
 
                             <option value="Open">
@@ -452,135 +269,67 @@ function EventForm({ event, done }) {
                             </option>
 
                         </select>
-
                     </div>
 
 
-                    {}
-
                     <div>
-
-                        <label className="
-                            block
-                            font-semibold
-                            mb-2
-                        ">
-
-                            Organizer Email *
-
+                        <label>
+                            Email *
                         </label>
 
-
                         <input
-                            className="
-                                border
-                                rounded-md
-                                p-2.5
-                                w-full
-                            "
+                            className={inputClass}
                             type="email"
                             name="email"
-                            placeholder="organizer@gmail.com"
                             value={form.email}
                             onChange={change}
                         />
-
                     </div>
 
 
-                    {}
-
                     <div>
-
-                        <label className="
-                            block
-                            font-semibold
-                            mb-2
-                        ">
-
-                            Contact Number *
-
+                        <label>
+                            Phone *
                         </label>
 
-
                         <input
-                            className="
-                                border
-                                rounded-md
-                                p-2.5
-                                w-full
-                            "
+                            className={inputClass}
                             type="tel"
                             name="phone"
-                            placeholder="10 digit number"
                             value={form.phone}
                             onChange={change}
                             maxLength="10"
                         />
-
                     </div>
 
 
-                    {}
-
                     <div>
-
-                        <label className="
-                            block
-                            font-semibold
-                            mb-2
-                        ">
-
-                            Organizer Password *
-
+                        <label>
+                            Password *
                         </label>
 
-
                         <input
-                            className="
-                                border
-                                rounded-md
-                                p-2.5
-                                w-full
-                            "
+                            className={inputClass}
                             type="password"
                             name="password"
-                            placeholder="Minimum 6 characters"
                             value={form.password}
                             onChange={change}
                         />
-
                     </div>
 
 
-                    {}
-
                     <div>
-
-                        <label className="
-                            block
-                            font-semibold
-                            mb-2
-                        ">
-
+                        <label>
                             Event Date *
-
                         </label>
 
-
                         <input
-                            className="
-                                border
-                                rounded-md
-                                p-2.5
-                                w-full
-                            "
+                            className={inputClass}
                             type="date"
                             name="eventDate"
                             value={form.eventDate}
                             onChange={change}
                         />
-
                     </div>
 
                 </div>
@@ -588,322 +337,150 @@ function EventForm({ event, done }) {
             </fieldset>
 
 
-            {}
+            {/* EVENT CATEGORY */}
 
             <fieldset className="
                 border
-                border-green-200
                 rounded-lg
-                p-5
-                mb-6
+                p-4
+                mb-5
             ">
 
                 <legend className="
-                    px-3
+                    font-bold
+                    px-2
                     text-green-700
-                    font-bold
                 ">
-
                     Event Category
-
                 </legend>
 
 
-                {/* EVENT TYPE */}
-
-                <div className="mb-6">
-
-                    <p className="
-                        font-semibold
-                        mb-3
-                    ">
-
-                        Event Type *
-
-                    </p>
+                <p className="font-semibold mb-2">
+                    Event Type *
+                </p>
 
 
-                    <div className="
-                        flex
-                        flex-wrap
-                        gap-6
-                    ">
-
-
-                        <label className="
-                            flex
-                            items-center
-                            gap-2
-                        ">
-
-                            <input
-                                type="radio"
-                                name="eventType"
-                                value="Technical"
-                                checked={
-                                    form.eventType ===
-                                    "Technical"
-                                }
-                                onChange={change}
-                            />
-
-                            Technical
-
-                        </label>
-
-
-                        <label className="
-                            flex
-                            items-center
-                            gap-2
-                        ">
-
-                            <input
-                                type="radio"
-                                name="eventType"
-                                value="Cultural"
-                                checked={
-                                    form.eventType ===
-                                    "Cultural"
-                                }
-                                onChange={change}
-                            />
-
-                            Cultural
-
-                        </label>
-
-
-                        <label className="
-                            flex
-                            items-center
-                            gap-2
-                        ">
-
-                            <input
-                                type="radio"
-                                name="eventType"
-                                value="Sports"
-                                checked={
-                                    form.eventType ===
-                                    "Sports"
-                                }
-                                onChange={change}
-                            />
-
-                            Sports
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-
-                {}
-
-                <div className="mb-6">
-
-                    <label className="
-                        block
-                        font-semibold
-                        mb-2
-                    ">
-
-                        Venue *
-
-                    </label>
-
-
-                    <select
-                        className="
-                            border
-                            rounded-md
-                            p-2.5
-                            w-full
-                        "
-                        name="venue"
-                        value={form.venue}
-                        onChange={change}
-                    >
-
-                        <option value="">
-                            Select Venue
-                        </option>
-
-                        <option value="Auditorium">
-                            Main Auditorium
-                        </option>
-
-                        <option value="Seminar Hall">
-                            Seminar Hall
-                        </option>
-
-                        <option value="Ground">
-                            College Ground
-                        </option>
-
-                        <option value="Lab">
-                            Computer Lab
-                        </option>
-
-                    </select>
-
-                </div>
-
-            </fieldset>
-
-
-            {}
-
-            <fieldset className="
-                border
-                border-purple-200
-                rounded-lg
-                p-5
-                mb-6
-            ">
-
-                <legend className="
-                    px-3
-                    text-purple-700
-                    font-bold
+                <div className="
+                    flex
+                    gap-6
+                    mb-5
                 ">
 
-                    Additional Details
+                    {[
+                        "Technical",
+                        "Cultural",
+                        "Sports"
+                    ].map(type => (
 
-                </legend>
+                        <label
+                            key={type}
+                            className="
+                                flex
+                                gap-2
+                                items-center
+                            "
+                        >
 
+                            <input
+                                type="radio"
+                                name="eventType"
+                                value={type}
+                                checked={
+                                    form.eventType ===
+                                    type
+                                }
+                                onChange={change}
+                            />
 
-                {}
+                            {type}
 
-                <div className="mb-5">
+                        </label>
 
-                    <label className="
-                        block
-                        font-semibold
-                        mb-2
-                    ">
-
-                        Event Website
-
-                    </label>
-
-
-                    <input
-                        className="
-                            border
-                            rounded-md
-                            p-2.5
-                            w-full
-                        "
-                        type="url"
-                        name="website"
-                        placeholder="https://example.com"
-                        value={form.website}
-                        onChange={change}
-                    />
+                    ))}
 
                 </div>
 
 
-                {}
-
-                <div className="mb-5">
-
-                    <label className="
-                        block
-                        font-semibold
-                        mb-2
-                    ">
-
-                        Event Poster
-
-                    </label>
+                <label className="
+                    font-semibold
+                ">
+                    Venue *
+                </label>
 
 
-                    <input
-                        className="
-                            border
-                            rounded-md
-                            p-2
-                            w-full
-                        "
-                        type="file"
-                        accept="image/*"
-                        onChange={e =>
-                            setForm({
-                                ...form,
-                                poster:
-                                    e.target.files[0]
-                            })
-                        }
-                    />
+                <select
+                    className={inputClass}
+                    name="venue"
+                    value={form.venue}
+                    onChange={change}
+                >
 
-                </div>
+                    <option value="">
+                        Select venue
+                    </option>
 
+                    <option value="Auditorium">
+                        Main Auditorium
+                    </option>
 
-                {}
+                    <option value="Seminar Hall">
+                        Seminar Hall
+                    </option>
 
-                <div>
+                    <option value="Ground">
+                        College Ground
+                    </option>
 
-                    <label className="
-                        block
-                        font-semibold
-                        mb-2
-                    ">
+                    <option value="Lab">
+                        Computer Lab
+                    </option>
 
-                        Event Description
-
-                    </label>
+                </select>
 
 
-                    <textarea
-                        className="
-                            border
-                            rounded-md
-                            p-2.5
-                            w-full
-                        "
-                        rows="4"
-                        name="description"
-                        placeholder="Describe the event..."
-                        value={form.description}
-                        onChange={change}
-                    />
+                <label className="
+                    block
+                    font-semibold
+                    mt-5
+                ">
+                    Event Poster
+                </label>
 
-                </div>
+
+                <input
+                    className="mt-2"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                        setForm({
+                            ...form,
+                            poster:
+                                e.target.files[0]
+                        })
+                    }
+                />
 
             </fieldset>
 
-
-            {}
 
             <button
                 type="submit"
                 className="
-                    bg-blue-700
-                    hover:bg-blue-800
+                    bg-pink-600
+                    hover:bg-pink-700
                     text-white
-                    font-semibold
-                    px-6
-                    py-2.5
-                    rounded-md
+                    px-5
+                    py-2
+                    rounded
                 "
             >
-
                 {event
                     ? "Update Event"
                     : "Create Event"}
-
             </button>
 
-
         </form>
-
     );
-
 }
-
 
 export default EventForm;

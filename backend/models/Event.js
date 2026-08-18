@@ -53,21 +53,6 @@ const eventSchema = new mongoose.Schema({
         required: true
     },
 
-    facilities: {
-        type: [String],
-        default: []
-    },
-
-    website: {
-        type: String,
-        default: ""
-    },
-
-    description: {
-        type: String,
-        default: ""
-    },
-
     poster: {
         type: String,
         default: ""

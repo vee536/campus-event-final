@@ -13,83 +13,83 @@ import EventCard
 
 function EventList() {
 
-    const [events, setEvents] =
-        useState([]);
+const [events, setEvents] =
+useState([]);
 
 
-    const load = async () => {
+const load = async () => {
 
-        const data =
-            await getEvents();
+const data =
+await getEvents();
 
-        setEvents(data);
+setEvents(data);
 
-    };
-
-
-    useEffect(() => {
-
-        load();
-
-    }, []);
+};
 
 
-    const remove = async id => {
+useEffect(() => {
 
-        if (
-            !window.confirm(
-                "Delete this event?"
-            )
-        ) {
-            return;
-        }
+load();
 
-        await deleteEvent(id);
-
-        load();
-
-    };
+}, []);
 
 
-    return (
+const remove = async id => {
 
-        <section>
+if (
+!window.confirm(
+    "Delete this event?"
+)
+) {
+return;
+}
 
-            <h2 className="
-                text-xl
-                font-bold
-                text-gray-800
-                mb-4
-            ">
-                Campus Events
-            </h2>
+await deleteEvent(id);
 
+load();
 
-            {events.length === 0 && (
-
-                <p className="
-                    text-gray-500
-                ">
-                    No events registered yet.
-                </p>
-
-            )}
+};
 
 
-            {events.map(event => (
+return (
 
-                <EventCard
-                    key={event._id}
-                    event={event}
-                    remove={remove}
-                    refresh={load}
-                />
+<section>
 
-            ))}
+<h2 className="
+    text-xl
+    font-bold
+    text-gray-800
+    mb-4
+">
+    Campus Events
+</h2>
 
-        </section>
 
-    );
+{events.length === 0 && (
+
+    <p className="
+        text-gray-500
+    ">
+        No events registered yet.
+    </p>
+
+)}
+
+
+{events.map(event => (
+
+    <EventCard
+        key={event._id}
+        event={event}
+        remove={remove}
+        refresh={load}
+    />
+
+))}
+
+</section>
+
+);
 
 }
 

@@ -18,13 +18,6 @@ router.post(
 
             const data = req.body;
 
-            data.facilities =
-                data.facilities
-                    ? JSON.parse(
-                        data.facilities
-                    )
-                    : [];
-
             if (req.file) {
                 data.poster =
                     req.file.filename;
@@ -109,13 +102,6 @@ router.put(
         try {
 
             const data = req.body;
-
-            data.facilities =
-                data.facilities
-                    ? JSON.parse(
-                        data.facilities
-                    )
-                    : [];
 
             if (req.file) {
                 data.poster =
