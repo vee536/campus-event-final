@@ -164,7 +164,7 @@ function EventForm({ event, done }) {
             </h2>
 
 
-            {/* EVENT DETAILS */}
+
 
             <fieldset className="
                 border
@@ -337,7 +337,6 @@ function EventForm({ event, done }) {
             </fieldset>
 
 
-            {/* EVENT CATEGORY */}
 
             <fieldset className="
                 border
